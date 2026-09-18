@@ -19,8 +19,8 @@
     ],
     "messageKeys": [
       "BACKGROUND_COLOR",
-      "CARD_COLOR",
-      "TEXT_COLOR"
+      "CARD_COLOR[60]",
+      "TEXT_COLOR[60]"
     ],
     "resources": {
       "media": []
@@ -28,7 +28,9 @@
     "targetPlatforms": [
       "aplite",
       "basalt",
-      "diorite"
+      "diorite",
+      "emery",
+      "flint"
     ]
   },
   "dependencies": {
