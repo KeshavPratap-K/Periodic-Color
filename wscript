@@ -1,27 +1,19 @@
-# Standard Pebble SDK 3 build rules.  Keep JavaScript explicit so the
-# configuration page is included in the generated PBW.
 top = '.'
 out = 'build'
-
 
 def options(ctx):
     ctx.load('pebble_sdk')
 
-
 def configure(ctx):
     ctx.load('pebble_sdk')
-
 
 def build(ctx):
     ctx.load('pebble_sdk')
 
     binaries = []
-    original_env = ctx.env
-
     for platform in ctx.env.TARGET_PLATFORMS:
         ctx.env = ctx.all_envs[platform]
         ctx.set_group(ctx.env.PLATFORM_NAME)
-
         app_elf = '{}/pebble-app.elf'.format(ctx.env.BUILD_DIR)
         ctx.pbl_build(
             source=ctx.path.ant_glob('src/c/**/*.c'),
@@ -30,11 +22,5 @@ def build(ctx):
         )
         binaries.append({'platform': platform, 'app_elf': app_elf})
 
-    ctx.env = original_env
     ctx.set_group('bundle')
-
-    ctx.pbl_bundle(
-        binaries=binaries,
-        js=ctx.path.ant_glob(['src/pkjs/**/*.js']),
-        js_entry_file='src/pkjs/index.js'
-    )
+    ctx.pbl_bundle(binaries=binaries)

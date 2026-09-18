@@ -12,25 +12,24 @@
     "displayName": "Periodic Color",
     "uuid": "d1f75918-5dea-4f50-9f37-ecb12ba50245",
     "sdkVersion": "3",
+    "watchface": true,
     "enableMultiJS": true,
     "capabilities": [
       "configurable"
     ],
     "messageKeys": [
       "BACKGROUND_COLOR",
-      "CARD_COLOR[60]",
-      "TEXT_COLOR[60]"
+      "CARD_COLOR",
+      "TEXT_COLOR"
     ],
+    "resources": {
+      "media": []
+    },
     "targetPlatforms": [
       "aplite",
       "basalt",
-      "diorite",
-      "emery",
-      "flint"
-    ],
-    "watchapp": {
-      "watchface": true
-    }
+      "diorite"
+    ]
   },
   "dependencies": {
     "@rebble/clay": "^1.1.0"

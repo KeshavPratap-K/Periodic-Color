@@ -23,42 +23,67 @@ var DEFAULT_CARD = [
   'ffcc00','5599aa','5599aa','aa5500','559900','5544aa','5599aa','5599aa',
   '559900','5599aa','aa5500','559900'
 ];
+
 var LIGHT_TEXT_CARDS = { '333333': true, 'aa0000': true, '5599aa': true, '5544aa': true, '555500': true };
+
 var DEFAULT_TEXT = DEFAULT_CARD.map(function(color) {
   return LIGHT_TEXT_CARDS[color] ? 'ffffff' : '000000';
 });
-var BW_FIVE = [['000000', '555555', 'aaaaaa', 'dddddd', 'ffffff']];
 
-function colorItem(id, key, label, value, colorLayout) {
-  return {
-    type: 'color', id: id, messageKey: key, label: label,
-    defaultValue: value, sunlight: false, allowGray: true, layout: colorLayout
-  };
-}
+var BW_FIVE = [['000000', '555555', 'aaaaaa', 'dddddd', 'ffffff']];
 
 function buildConfig(isColor) {
   var pickerLayout = isColor ? 'COLOR' : BW_FIVE;
-  var page = [
-    { type: 'heading', defaultValue: 'Periodic Color', size: 2 },
-    { type: 'text', defaultValue: 'Choose a background, then set each element card and its text. The colour picker shows only the palette for the connected watch.' },
-    { type: 'section', items: [
-      colorItem('background-color', 'BACKGROUND_COLOR', 'Background', '000000', pickerLayout)
-    ] },
-    { type: 'heading', defaultValue: 'Element | Card | Text', size: 4 },
-    { type: 'text', defaultValue: 'Each element has a card-colour selector and a text-colour selector.' }
-  ];
 
-  ELEMENTS.forEach(function(name, index) {
-    page.push({ type: 'section', items: [
-      { type: 'heading', defaultValue: name, size: 5 },
-      colorItem('card-' + index, 'CARD_COLOR[' + index + ']', 'Card colour', DEFAULT_CARD[index], pickerLayout),
-      colorItem('text-' + index, 'TEXT_COLOR[' + index + ']', 'Text colour', DEFAULT_TEXT[index], pickerLayout)
-    ] });
+  // Build element options for select dropdown
+  var elementOptions = ELEMENTS.map(function(name, index) {
+    return { label: name, value: index };
   });
 
-  page.push({ type: 'button', id: 'reset-defaults', defaultValue: 'Reset to original preset colours' });
-  page.push({ type: 'submit', defaultValue: 'Save settings' });
-  return page;
+  return [
+    { type: 'heading', defaultValue: 'Periodic Color', size: 2 },
+    { type: 'section', items: [
+      {
+        type: 'color',
+        id: 'background-color',
+        messageKey: 'BACKGROUND_COLOR',
+        label: 'Background Color',
+        defaultValue: '000000',
+        sunlight: false,
+        allowGray: true,
+        layout: pickerLayout
+      }
+    ] },
+    { type: 'heading', defaultValue: 'Element Color Customizer', size: 4 },
+    { type: 'section', items: [
+      {
+        type: 'select',
+        id: 'selected-element',
+        label: 'Select Element',
+        defaultValue: 0,
+        options: elementOptions
+      },
+      {
+        type: 'color',
+        id: 'card-color',
+        label: 'Card Color',
+        defaultValue: DEFAULT_CARD[0],
+        sunlight: false,
+        allowGray: true,
+        layout: pickerLayout
+      },
+      {
+        type: 'color',
+        id: 'text-color',
+        label: 'Text Color',
+        defaultValue: DEFAULT_TEXT[0],
+        sunlight: false,
+        allowGray: true,
+        layout: pickerLayout
+      }
+    ] },
+    { type: 'submit', defaultValue: 'Save Settings' }
+  ];
 }
 
 module.exports = {
