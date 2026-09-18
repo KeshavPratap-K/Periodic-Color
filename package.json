@@ -1,41 +1,41 @@
 {
-  "name": "periodic-color",
-  "author": "Pebble community",
-  "version": "1.0.0",
-  "keywords": [
-    "pebble-app",
-    "watchface",
-    "periodic-table"
-  ],
-  "private": true,
-  "pebble": {
-    "displayName": "Periodic Color",
-    "uuid": "d1f75918-5dea-4f50-9f37-ecb12ba50245",
-    "sdkVersion": "3",
-    "enableMultiJS": true,
-    "capabilities": [
-      "configurable"
-    ],
-    "messageKeys": [
-      "BACKGROUND_COLOR",
-      "CARD_COLOR[60]",
-      "TEXT_COLOR[60]"
-    ],
-    "resources": {
-      "media": []
+    "author": "keshav.contact",
+    "dependencies": {
+        "@rebble/clay": "^1.1.0"
     },
-    "watchapp": {
-      "watchface": true
+    "keywords": [
+        "pebble-app",
+        "watchface",
+        "periodic-table"
+    ],
+    "name": "periodic-color",
+    "pebble": {
+        "capabilities": [
+            "configurable"
+        ],
+        "displayName": "Periodic Color",
+        "enableMultiJS": true,
+        "messageKeys": [
+            "BACKGROUND_COLOR",
+            "CARD_COLOR[60]",
+            "TEXT_COLOR[60]"
+        ],
+        "projectType": "native",
+        "resources": {
+            "media": []
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "aplite",
+            "basalt",
+            "diorite",
+            "emery",
+            "flint"
+        ],
+        "uuid": "d1f75918-5dea-4f50-9f37-ecb12ba50245",
+        "watchapp": {
+            "watchface": true
+        }
     },
-    "targetPlatforms": [
-      "aplite",
-      "basalt",
-      "diorite",
-      "emery",
-      "flint"
-    ]
-  },
-  "dependencies": {
-    "@rebble/clay": "^1.1.0"
-  }
+    "version": "1.5.0"
 }
