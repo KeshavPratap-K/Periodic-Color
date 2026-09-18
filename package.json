@@ -1,0 +1,38 @@
+{
+  "name": "periodic-color",
+  "author": "Pebble community",
+  "version": "1.0.0",
+  "keywords": [
+    "pebble-app",
+    "watchface",
+    "periodic-table"
+  ],
+  "private": true,
+  "dependencies": {
+    "pebble-clay": "^1.0.0"
+  },
+  "pebble": {
+    "displayName": "Periodic Color",
+    "uuid": "d1f75918-5dea-4f50-9f37-ecb12ba50245",
+    "sdkVersion": "3",
+    "enableMultiJS": true,
+    "capabilities": [
+      "configurable"
+    ],
+    "messageKeys": [
+      "BACKGROUND_COLOR",
+      "CARD_COLORS",
+      "TEXT_COLORS"
+    ],
+    "targetPlatforms": [
+      "aplite",
+      "basalt",
+      "diorite",
+      "emery",
+      "flint"
+    ],
+    "watchapp": {
+      "watchface": true
+    }
+  }
+}
