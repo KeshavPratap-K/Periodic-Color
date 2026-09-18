@@ -1,15 +1,11 @@
 var Clay = require('pebble-clay');
+var messageKeys = require('message_keys');
 var settings = require('./config');
 var customClay = require('./custom-clay');
 
 function activeWatchIsColor() {
   var info = clay.meta.activeWatchInfo || {};
   return info.platform !== 'aplite' && info.platform !== 'diorite';
-}
-
-function rgbToPebbleArgb(rgb) {
-  return 0xC0 | (((rgb >> 16) & 0xFF) >> 6) << 4 |
-      ((((rgb >> 8) & 0xFF) >> 6) << 2) | ((rgb & 0xFF) >> 6);
 }
 
 var clay = new Clay(settings.build(true), customClay, {
@@ -27,15 +23,11 @@ Pebble.addEventListener('webviewclosed', function(event) {
     return;
   }
   var chosen = clay.getSettings(event.response);
-  var cardColors = [];
-  var textColors = [];
+  var payload = {};
+  payload[messageKeys.BACKGROUND_COLOR] = chosen[messageKeys.BACKGROUND_COLOR];
   for (var index = 0; index < settings.elements.length; index++) {
-    cardColors.push(rgbToPebbleArgb(chosen[1000 + index]));
-    textColors.push(rgbToPebbleArgb(chosen[1100 + index]));
+    payload[messageKeys.CARD_COLOR + index] = chosen[messageKeys.CARD_COLOR + index];
+    payload[messageKeys.TEXT_COLOR + index] = chosen[messageKeys.TEXT_COLOR + index];
   }
-  Pebble.sendAppMessage({
-    BACKGROUND_COLOR: chosen.BACKGROUND_COLOR,
-    CARD_COLORS: cardColors,
-    TEXT_COLORS: textColors
-  });
+  Pebble.sendAppMessage(payload);
 });

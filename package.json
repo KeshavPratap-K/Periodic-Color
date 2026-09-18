@@ -21,8 +21,8 @@
     ],
     "messageKeys": [
       "BACKGROUND_COLOR",
-      "CARD_COLORS",
-      "TEXT_COLORS"
+      "CARD_COLOR[60]",
+      "TEXT_COLOR[60]"
     ],
     "targetPlatforms": [
       "aplite",

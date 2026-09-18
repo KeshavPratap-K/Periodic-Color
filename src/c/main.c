@@ -372,20 +372,30 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
 static void inbox_received_handler(DictionaryIterator *iterator, void *context) {
   (void)context;
   Tuple *background = dict_find(iterator, MESSAGE_KEY_BACKGROUND_COLOR);
-  Tuple *cards = dict_find(iterator, MESSAGE_KEY_CARD_COLORS);
-  Tuple *text = dict_find(iterator, MESSAGE_KEY_TEXT_COLORS);
+  bool changed = false;
 
   if (background) {
     s_background_color = GColorFromHEX((uint32_t)background->value->int32);
+    changed = true;
   }
-  if (cards && cards->length == ELEMENT_COUNT) {
-    memcpy(s_card_colors, cards->value->data, ELEMENT_COUNT);
+
+  for (int index = 0; index < ELEMENT_COUNT; index++) {
+    Tuple *card = dict_find(iterator, MESSAGE_KEY_CARD_COLOR + index);
+    Tuple *text = dict_find(iterator, MESSAGE_KEY_TEXT_COLOR + index);
+    if (card) {
+      s_card_colors[index] = GColorFromHEX((uint32_t)card->value->int32).argb;
+      changed = true;
+    }
+    if (text) {
+      s_text_colors[index] = GColorFromHEX((uint32_t)text->value->int32).argb;
+      changed = true;
+    }
   }
-  if (text && text->length == ELEMENT_COUNT) {
-    memcpy(s_text_colors, text->value->data, ELEMENT_COUNT);
+
+  if (changed) {
+    save_colors();
+    layer_mark_dirty(s_face_layer);
   }
-  save_colors();
-  layer_mark_dirty(s_face_layer);
 }
 
 static void window_load(Window *window) {

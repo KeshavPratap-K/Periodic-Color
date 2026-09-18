@@ -57,8 +57,8 @@ function buildConfig(isColor) {
   ELEMENTS.forEach(function(name, index) {
     page.push({ type: 'section', items: [
       { type: 'heading', defaultValue: name, size: 5 },
-      colorItem('card-' + index, 1000 + index, 'Card colour', DEFAULT_CARD[index], pickerLayout),
-      colorItem('text-' + index, 1100 + index, 'Text colour', DEFAULT_TEXT[index], pickerLayout)
+      colorItem('card-' + index, 'CARD_COLOR[' + index + ']', 'Card colour', DEFAULT_CARD[index], pickerLayout),
+      colorItem('text-' + index, 'TEXT_COLOR[' + index + ']', 'Text colour', DEFAULT_TEXT[index], pickerLayout)
     ] });
   });
 
