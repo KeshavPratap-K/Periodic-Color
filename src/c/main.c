@@ -13,16 +13,13 @@
 
 typedef enum {
   MATERIAL_COLORLESS,
-  MATERIAL_SILVER,
   MATERIAL_DARK,
-  MATERIAL_BROWN,
   MATERIAL_RED,
   MATERIAL_ORANGE,
   MATERIAL_YELLOW,
   MATERIAL_GREEN,
   MATERIAL_BLUE,
-  MATERIAL_PURPLE,
-  MATERIAL_GOLD
+  MATERIAL_PURPLE
 } MaterialTone;
 
 typedef struct {
@@ -128,16 +125,13 @@ static GColor element_color(MaterialTone tone) {
   // supported shade. No platform preprocessor branch is needed here.
   switch (tone) {
     case MATERIAL_COLORLESS: return GColorFromRGB(238, 242, 240);
-    case MATERIAL_SILVER:    return GColorFromRGB(168, 176, 179);
     case MATERIAL_DARK:      return GColorFromRGB(48, 51, 51);
-    case MATERIAL_BROWN:     return GColorFromRGB(92, 70, 49);
     case MATERIAL_RED:       return GColorFromRGB(170, 48, 40);
     case MATERIAL_ORANGE:    return GColorFromRGB(197, 91, 42);
     case MATERIAL_YELLOW:    return GColorFromRGB(239, 202, 35);
     case MATERIAL_GREEN:     return GColorFromRGB(96, 153, 57);
     case MATERIAL_BLUE:      return GColorFromRGB(84, 148, 181);
     case MATERIAL_PURPLE:    return GColorFromRGB(103, 69, 139);
-    case MATERIAL_GOLD:      return GColorFromRGB(193, 151, 57);
   }
   return GColorWhite;
 }
@@ -145,7 +139,6 @@ static GColor element_color(MaterialTone tone) {
 static GColor element_ink(MaterialTone tone) {
   switch (tone) {
     case MATERIAL_DARK:
-    case MATERIAL_BROWN:
     case MATERIAL_RED:
     case MATERIAL_BLUE:
     case MATERIAL_PURPLE:
@@ -229,8 +222,13 @@ static void draw_card(GContext *ctx, GRect frame, const Element *element,
       ? FONT_KEY_GOTHIC_18_BOLD : FONT_KEY_GOTHIC_14_BOLD);
   graphics_context_set_fill_color(ctx, fill);
   graphics_fill_rect(ctx, frame, 0, GCornerNone);
-  graphics_context_set_stroke_color(ctx, ink);
-  graphics_draw_rect(ctx, frame);
+
+  // Filled cards intentionally have no border. A transparent card needs an
+  // outline so its bounds remain visible against the watchface background.
+  if (gcolor_equal(fill, GColorClear)) {
+    graphics_context_set_stroke_color(ctx, ink);
+    graphics_draw_rect(ctx, frame);
+  }
 
   graphics_context_set_text_color(ctx, ink);
   graphics_draw_text(ctx, element->symbol,
@@ -293,13 +291,9 @@ static void draw_animated_side(GContext *ctx, GRect frame, int previous,
 static void face_layer_update(Layer *layer, GContext *ctx) {
   GRect bounds = layer_get_bounds(layer);
   const int margin = 4;
-#ifdef PBL_PLATFORM_EMERY
-  // The Pebble Time 2's display is inset at all four corners. Keep the 94 px
-  // cards at their established size, but pull both cards 14 px toward centre.
+  // Preserve card size while keeping both diagonal cards clear of the display
+  // edges on every rectangular Pebble.
   const int vertical_margin = 24;
-#else
-  const int vertical_margin = 10;
-#endif
   const int center_nudge = 1;
   int card_width = (bounds.size.w - (margin * 3)) / 2;
   int card_height = (card_width * 4) / 3;
