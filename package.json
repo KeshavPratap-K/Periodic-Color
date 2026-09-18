@@ -12,7 +12,6 @@
     "displayName": "Periodic Color",
     "uuid": "d1f75918-5dea-4f50-9f37-ecb12ba50245",
     "sdkVersion": "3",
-    "watchface": true,
     "enableMultiJS": true,
     "capabilities": [
       "configurable"
@@ -24,6 +23,9 @@
     ],
     "resources": {
       "media": []
+    },
+    "watchapp": {
+      "watchface": true
     },
     "targetPlatforms": [
       "aplite",
