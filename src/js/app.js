@@ -1,4 +1,4 @@
-var Clay = require('pebble-clay');
+var Clay = require('@rebble/clay');
 var messageKeys = require('message_keys');
 var settings = require('./config');
 var customClay = require('./custom-clay');
