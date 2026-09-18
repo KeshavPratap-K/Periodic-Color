@@ -293,7 +293,13 @@ static void draw_animated_side(GContext *ctx, GRect frame, int previous,
 static void face_layer_update(Layer *layer, GContext *ctx) {
   GRect bounds = layer_get_bounds(layer);
   const int margin = 4;
+#ifdef PBL_PLATFORM_EMERY
+  // The Pebble Time 2's display is inset at all four corners. Keep the 94 px
+  // cards at their established size, but pull both cards 14 px toward centre.
+  const int vertical_margin = 24;
+#else
   const int vertical_margin = 10;
+#endif
   const int center_nudge = 1;
   int card_width = (bounds.size.w - (margin * 3)) / 2;
   int card_height = (card_width * 4) / 3;
